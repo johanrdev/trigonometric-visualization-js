@@ -68,7 +68,6 @@
   }
 
   const drawRadius = (radians) => {
-    // Radius
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(
@@ -78,6 +77,23 @@
     ctx.lineWidth = 4;
     ctx.setLineDash([]);
     ctx.strokeStyle = 'red';
+    ctx.stroke();
+    ctx.closePath();
+  }
+
+  const drawOpposite = (radians) => {
+    ctx.beginPath();
+    ctx.moveTo(
+      centerX + radius * Math.cos(radians),
+      centerY - radius * Math.sin(radians)
+    );
+    ctx.lineTo(
+      centerX + radius * Math.cos(radians),
+      centerY
+    );
+    ctx.lineWidth = 4;
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'blue';
     ctx.stroke();
     ctx.closePath();
   }
@@ -94,6 +110,7 @@
     if (angle >= 360) angle = 0
 
     drawRadius(radians);
+    drawOpposite(radians);
 
     degProperty.innerHTML = angle.toFixed(0);
     radProperty.innerHTML = radians.toFixed(2);
