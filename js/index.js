@@ -98,6 +98,20 @@
     ctx.closePath();
   }
 
+  const drawAdjacent = (radians) => {
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(
+      centerX + radius * Math.cos(radians),
+      centerY
+    );
+    ctx.lineWidth = 4;
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'green';
+    ctx.stroke();
+    ctx.closePath();
+  }
+
   const clear = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
   const degreesToRadians = (degrees) => degrees * Math.PI / 180;
   const radiansToDegrees = (radians) => radians * 180 / Math.PI;
@@ -111,6 +125,7 @@
 
     drawRadius(radians);
     drawOpposite(radians);
+    drawAdjacent(radians);
 
     degProperty.innerHTML = angle.toFixed(0);
     radProperty.innerHTML = radians.toFixed(2);
