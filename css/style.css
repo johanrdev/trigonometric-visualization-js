@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+}
+
+#site-container {
+  display: grid;
+  grid-gap: 1em;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  margin: 0 auto;
+  margin-top: 6%;
+  max-width: 768px;
+}
+
+#site-container > header {
+  background: #e8e8e8;
+  font-size: 1.45em;
+  grid-column-start: 1;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}
+
+#site-container > aside {
+  background: #e8e8e8;
+  grid-column-start: 1;
+  grid-column-end: 7;
+  grid-row-start: 2;
+  padding: 1em;
+}
+
+#site-container > main {
+  background: #e8e8e8;
+  grid-column-start: 1;
+  grid-column-end: 7;
+  grid-row-start: 3;
+  padding: 1em;
+}
+
+#site-container > footer {
+  background: #e8e8e8;
+  grid-row-start: 4;
+  grid-column-start: 1;
+  grid-column-end: 7;
+  padding: 1em;
+}
+
+canvas {
+  background: #d8d8d8;
+  height: 0;
+  padding-bottom: 100%;
+  width: 100%;
+}
