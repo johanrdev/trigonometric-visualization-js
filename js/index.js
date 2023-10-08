@@ -11,35 +11,6 @@
     }
   }
 
-  const { canvas, ctx } = setupCanvas();
-
-  const controls = {
-    range: document.querySelector('input'),
-    button: document.querySelector('button')
-  }
-
-  const elements = {
-    deg: document.getElementById('deg'),
-    rad: document.getElementById('rad'),
-    sin: document.getElementById('sin'),
-    cos: document.getElementById('cos'),
-    tan: document.getElementById('tan'),
-    csc: document.getElementById('csc'),
-    sec: document.getElementById('sec'),
-    cot: document.getElementById('cot')
-  }
-
-  const properties = {
-    angle: 0,
-    step: .6,
-    radius: canvas.width / 3,
-    origin: {
-      x: canvas.width / 2,
-      y: canvas.height / 2
-    },
-    animating: true
-  }
-
   const drawCircle = (angle) => {
     // Circle
     ctx.beginPath();
@@ -322,6 +293,35 @@
     properties.animating = false;
     controls.button.innerHTML = 'Play'
   };
+
+  const { canvas, ctx } = setupCanvas();
+
+  const controls = {
+    range: document.querySelector('input'),
+    button: document.querySelector('button')
+  }
+
+  const elements = {
+    deg: document.getElementById('deg'),
+    rad: document.getElementById('rad'),
+    sin: document.getElementById('sin'),
+    cos: document.getElementById('cos'),
+    tan: document.getElementById('tan'),
+    csc: document.getElementById('csc'),
+    sec: document.getElementById('sec'),
+    cot: document.getElementById('cot')
+  }
+
+  const properties = {
+    angle: 0,
+    step: .6,
+    radius: canvas.width / 3,
+    origin: {
+      x: canvas.width / 2,
+      y: canvas.height / 2
+    },
+    animating: true
+  }
 
   controls.range.addEventListener('input', (event) => {
     Stop();
