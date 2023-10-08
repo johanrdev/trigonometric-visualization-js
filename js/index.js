@@ -1,12 +1,14 @@
 (() => {
   const canvas = document.querySelector('canvas');
+  const degProperty = document.getElementById('deg');
+  const radProperty = document.getElementById('rad');
   const ctx = canvas.getContext('2d');
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.width;
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const radius = centerX * .8;
-  const step = .8;
+  const step = .25;
 
   const setup = () => {
     // Circle
@@ -65,6 +67,21 @@
     ctx.closePath();
   }
 
+  const drawRadius = (radians) => {
+    // Radius
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(
+      centerX + radius * Math.cos(radians),
+      centerY - radius * Math.sin(radians)
+    );
+    ctx.lineWidth = 4;
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+    ctx.closePath();
+  }
+
   const clear = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
   const degreesToRadians = (degrees) => degrees * Math.PI / 180;
   const radiansToDegrees = (radians) => radians * 180 / Math.PI;
@@ -74,18 +91,12 @@
     clear();
     setup();
 
-    // Radius
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(
-      centerX + radius * Math.cos(radians), 
-      centerY - radius * Math.sin(radians)
-      );
-    ctx.lineWidth = 4;
-    ctx.setLineDash([]);
-    ctx.strokeStyle = 'red';
-    ctx.stroke();
-    ctx.closePath();
+    if (angle >= 360) angle = 0
+
+    drawRadius(radians);
+
+    degProperty.innerHTML = angle.toFixed(0);
+    radProperty.innerHTML = radians.toFixed(2);
 
     window.requestAnimationFrame(() => update(angle + step));
   }
