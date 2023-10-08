@@ -14,20 +14,38 @@
   ctx.stroke();
   ctx.closePath();
 
-  // x-axis
+  // Negative x-axis
   ctx.beginPath();
-  ctx.moveTo(0, centerY);
-  ctx.lineTo(canvas.width, centerY);
-  ctx.setLineDash([12, 10]);
+  ctx.moveTo(centerX, centerY);
+  ctx.lineTo(0, centerY);
+  ctx.setLineDash([15, 15]);
   ctx.strokeStyle = 'black';
   ctx.stroke();
   ctx.closePath();
 
-  // y-axis
+  // Positive x-axis
   ctx.beginPath();
-  ctx.moveTo(centerX, 0);
+  ctx.moveTo(centerX, centerY);
+  ctx.lineTo(canvas.width, centerY);
+  ctx.setLineDash([15, 15]);
+  ctx.strokeStyle = 'black';
+  ctx.stroke();
+  ctx.closePath();
+
+  // Negative y-axis
+  ctx.beginPath();
+  ctx.moveTo(centerX, centerY);
   ctx.lineTo(centerX, canvas.height);
-  ctx.setLineDash([12, 10]);
+  ctx.setLineDash([15, 15]);
+  ctx.strokeStyle = 'black';
+  ctx.stroke();
+  ctx.closePath();
+
+  // Positive y-axis
+  ctx.beginPath();
+  ctx.moveTo(centerX, centerY);
+  ctx.lineTo(centerX, 0);
+  ctx.setLineDash([15, 15]);
   ctx.strokeStyle = 'black';
   ctx.stroke();
   ctx.closePath();
