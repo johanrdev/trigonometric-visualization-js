@@ -13,7 +13,7 @@
   canvas.height = canvas.width;
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
-  const radius = centerX * .4;
+  const radius = centerX * .6;
   const step = .5;
 
   const setup = () => {
@@ -88,7 +88,7 @@
     ctx.closePath();
   }
 
-  const drawOpposite = (radians) => {
+  const drawSine = (radians) => {
     ctx.beginPath();
     ctx.moveTo(
       centerX + radius * Math.cos(radians),
@@ -98,23 +98,62 @@
       centerX + radius * Math.cos(radians),
       centerY
     );
-    ctx.lineWidth = 2;
-    ctx.setLineDash([]);
-    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([10, 5]);
+    ctx.strokeStyle = 'black';
     ctx.stroke();
     ctx.closePath();
   }
 
-  const drawAdjacent = (radians) => {
+  const drawCosine = (radians) => {
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
+    ctx.moveTo(centerX, centerY - radius * Math.sin(radians));
     ctx.lineTo(
       centerX + radius * Math.cos(radians),
+      centerY - radius * Math.sin(radians)
+    );
+    ctx.lineWidth = 1;
+    ctx.setLineDash([10, 5]);
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+    ctx.closePath();
+  }
+
+  const drawSecant = (radians) => {
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(centerX + radius * (1 / Math.cos(radians)), centerY);
+    ctx.lineWidth = 4;
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'purple';
+    ctx.stroke();
+    ctx.closePath();
+  }
+
+  const drawCosecant = (radians) => {
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(centerX, centerY - radius * (1 / Math.sin(radians)));
+    ctx.lineWidth = 4;
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'teal';
+    ctx.stroke();
+    ctx.closePath();
+  }
+
+  const drawTangent = (radians) => {
+    ctx.beginPath();
+    ctx.moveTo(
+      centerX + radius * Math.cos(radians), 
+      centerY - radius * Math.sin(radians)
+    );
+    ctx.lineTo(
+      centerX + radius * (1 / Math.cos(radians)), 
       centerY
     );
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 4;
     ctx.setLineDash([]);
-    ctx.strokeStyle = 'green';
+    ctx.strokeStyle = 'pink';
     ctx.stroke();
     ctx.closePath();
   }
@@ -127,6 +166,7 @@
     ctx.lineWidth = 1;
     ctx.fillStyle = 'yellow';
     ctx.fill();
+    ctx.setLineDash([]);
     ctx.strokeStyle = 'black';
     ctx.stroke();
     ctx.closePath();
@@ -143,9 +183,12 @@
 
     if (angle >= 360) angle = 0
 
+    drawSine(radians);
+    drawCosine(radians);
+    drawTangent(radians);
+    drawSecant(radians);
+    drawCosecant(radians);
     drawRadius(radians);
-    drawOpposite(radians);
-    drawAdjacent(radians);
     
     drawDot(
       centerX + radius * Math.cos(radians),
@@ -154,6 +197,14 @@
     drawDot(
       centerX + radius * Math.cos(radians),
       centerY
+    );
+    drawDot(
+      centerX + radius * (1 / Math.cos(radians)), 
+      centerY
+    );
+    drawDot(
+      centerX, 
+      centerY - radius * (1 / Math.sin(radians))
     );
     drawDot(centerX, centerY);
 
@@ -167,9 +218,9 @@
     secProperty.innerHTML = (1 / Math.cos(radians)).toFixed(4);
     cotProperty.innerHTML = (1 / Math.tan(radians)).toFixed(4);
 
-    // window.requestAnimationFrame(() => update(angle + step));
+    window.requestAnimationFrame(() => update(angle + step));
   }
 
   setup();
-  update(45);
+  update(0);
 })();
