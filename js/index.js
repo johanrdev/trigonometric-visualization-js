@@ -2,6 +2,9 @@
   const canvas = document.querySelector('canvas');
   const degProperty = document.getElementById('deg');
   const radProperty = document.getElementById('rad');
+  const sinProperty = document.getElementById('sin');
+  const cosProperty = document.getElementById('cos');
+  const tanProperty = document.getElementById('tan');
   const ctx = canvas.getContext('2d');
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.width;
@@ -15,6 +18,7 @@
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
     ctx.lineWidth = 1;
+    ctx.setLineDash([]);
     ctx.strokeStyle = 'black';
     ctx.stroke();
     ctx.closePath();
@@ -151,6 +155,9 @@
 
     degProperty.innerHTML = angle.toFixed(0);
     radProperty.innerHTML = radians.toFixed(2);
+    sinProperty.innerHTML = Math.sin(radians).toFixed(2);
+    cosProperty.innerHTML = Math.cos(radians).toFixed(2);
+    tanProperty.innerHTML = Math.tan(radians).toFixed(2);
 
     window.requestAnimationFrame(() => update(angle + step));
   }
