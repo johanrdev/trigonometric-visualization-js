@@ -8,7 +8,7 @@
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const radius = centerX * .8;
-  const step = .25;
+  const step = .5;
 
   const setup = () => {
     // Circle
@@ -74,7 +74,7 @@
       centerX + radius * Math.cos(radians),
       centerY - radius * Math.sin(radians)
     );
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 6;
     ctx.setLineDash([]);
     ctx.strokeStyle = 'red';
     ctx.stroke();
@@ -91,7 +91,7 @@
       centerX + radius * Math.cos(radians),
       centerY
     );
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 2;
     ctx.setLineDash([]);
     ctx.strokeStyle = 'blue';
     ctx.stroke();
@@ -105,9 +105,22 @@
       centerX + radius * Math.cos(radians),
       centerY
     );
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 2;
     ctx.setLineDash([]);
     ctx.strokeStyle = 'green';
+    ctx.stroke();
+    ctx.closePath();
+  }
+
+  const drawDot = (x, y) => {
+    ctx.beginPath();
+    ctx.arc(x, y, 
+      6, 0, 2 * Math.PI
+    );
+    ctx.lineWidth = 1;
+    ctx.fillStyle = 'yellow';
+    ctx.fill();
+    ctx.strokeStyle = 'black';
     ctx.stroke();
     ctx.closePath();
   }
@@ -126,6 +139,15 @@
     drawRadius(radians);
     drawOpposite(radians);
     drawAdjacent(radians);
+    drawDot(
+      centerX + radius * Math.cos(radians),
+      centerY - radius * Math.sin(radians)
+    );
+    drawDot(
+      centerX + radius * Math.cos(radians),
+      centerY
+    );
+    drawDot(centerX, centerY);
 
     degProperty.innerHTML = angle.toFixed(0);
     radProperty.innerHTML = radians.toFixed(2);
