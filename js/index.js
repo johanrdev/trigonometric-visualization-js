@@ -6,7 +6,7 @@
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const radius = centerX * .8;
-  const step = 0.0125;
+  const step = .8;
 
   const setup = () => {
     // Circle
@@ -66,15 +66,21 @@
   }
 
   const clear = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const degreesToRadians = (degrees) => degrees * Math.PI / 180;
+  const radiansToDegrees = (radians) => radians * 180 / Math.PI;
 
   const update = (angle) => {
+    const radians = degreesToRadians(angle);
     clear();
     setup();
 
     // Radius
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
-    ctx.lineTo(centerX + radius, centerY);
+    ctx.lineTo(
+      centerX + radius * Math.cos(radians), 
+      centerY - radius * Math.sin(radians)
+      );
     ctx.lineWidth = 4;
     ctx.setLineDash([]);
     ctx.strokeStyle = 'red';
