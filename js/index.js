@@ -1,24 +1,26 @@
 (() => {
   const year = document.getElementById('year')
   const canvas = document.querySelector('canvas');
-  const degProperty = document.getElementById('deg');
-  const radProperty = document.getElementById('rad');
-  const sinProperty = document.getElementById('sin');
-  const cosProperty = document.getElementById('cos');
-  const tanProperty = document.getElementById('tan');
-  const cscProperty = document.getElementById('csc');
-  const secProperty = document.getElementById('sec');
-  const cotProperty = document.getElementById('cot');
+  const properties = {
+    deg: document.getElementById('deg'),
+    rad: document.getElementById('rad'),
+    sin: document.getElementById('sin'),
+    cos: document.getElementById('cos'),
+    tan: document.getElementById('tan'),
+    csc: document.getElementById('csc'),
+    sec: document.getElementById('sec'),
+    cot: document.getElementById('cot')
+  }
   const ctx = canvas.getContext('2d');
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.width;
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
-  const radius = centerX * .8;
-  const step = .25;
+  const radius = centerX * .5;
+  const step = .6;
   year.innerHTML = (new Date()).getFullYear();
 
-  const setup = () => {
+  const setup = (angle) => {
     // Circle
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
@@ -27,6 +29,18 @@
     ctx.lineWidth = 2;
     ctx.setLineDash([]);
     ctx.strokeStyle = '#78716c';
+    ctx.stroke();
+    ctx.closePath();
+
+    // Angle arc
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius * .165, -degreesToRadians(angle), 0);
+    ctx.lineWidth = 2;
+    ctx.fillStyle = '#d6d3d1';
+    ctx.fill();
+    ctx.setLineDash([])
+    ctx.strokeStyle = '#a8a29e';
     ctx.stroke();
     ctx.closePath();
 
@@ -188,22 +202,22 @@
 
   const clear = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
   const degreesToRadians = (degrees) => degrees * Math.PI / 180;
-  const radiansToDegrees = (radians) => radians * 180 / Math.PI;
+  // const radiansToDegrees = (radians) => radians * 180 / Math.PI;
 
   const update = (angle) => {
     const radians = degreesToRadians(angle);
     clear();
-    setup();
+    setup(angle);
 
-    if (angle >= 360) angle = 0
+    if (angle >= 359) angle = 0;
 
-    drawSine(radians, '#78716c', 2);
-    drawCosine(radians, '#78716c', 2);
-    drawTangent(radians, '#78716c', 2);
-    drawSecant(radians, '#78716c', 2);
-    drawCosecant(radians, '#78716c', 2);
-    drawCotangent(radians, '#78716c', 2);
-    drawRadius(radians, '#0f766e', 6);
+    drawSine(radians, '#14b8a6', 2);
+    drawCosine(radians, '#14b8a6', 2);
+    drawTangent(radians, '#f43f5e', 2);
+    drawSecant(radians, '#818cf8', 4);
+    drawCosecant(radians, '#818cf8', 4);
+    drawCotangent(radians, '#f43f5e', 2);
+    drawRadius(radians, '#14b8a6', 4);
 
     // (cosθ, sinθ)
     drawDot(
@@ -258,21 +272,21 @@
     // (0, 0)
     drawDot(
       8,
-      centerX, 
+      centerX,
       centerY,
       '#14b8a6',
       '#78716c',
       1
     );
 
-    degProperty.innerHTML = angle.toFixed(0);
-    radProperty.innerHTML = radians.toFixed(4);
-    sinProperty.innerHTML = Math.sin(radians).toFixed(4);
-    cosProperty.innerHTML = Math.cos(radians).toFixed(4);
-    tanProperty.innerHTML = Math.tan(radians).toFixed(4);
-    cscProperty.innerHTML = (1 / Math.sin(radians)).toFixed(4);
-    secProperty.innerHTML = (1 / Math.cos(radians)).toFixed(4);
-    cotProperty.innerHTML = (1 / Math.tan(radians)).toFixed(4);
+    properties.deg.innerHTML = angle.toFixed(0);
+    properties.rad.innerHTML = radians.toFixed(4);
+    properties.sin.innerHTML = Math.sin(radians).toFixed(4);
+    properties.cos.innerHTML = Math.cos(radians).toFixed(4);
+    properties.tan.innerHTML = Math.tan(radians).toFixed(4);
+    properties.csc.innerHTML = (1 / Math.sin(radians)).toFixed(4);
+    properties.sec.innerHTML = (1 / Math.cos(radians)).toFixed(4);
+    properties.cot.innerHTML = (1 / Math.tan(radians)).toFixed(4);
 
     window.requestAnimationFrame(() => update(angle + step));
   }

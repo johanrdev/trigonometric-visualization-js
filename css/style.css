@@ -53,8 +53,15 @@ body {
 }
 
 #properties {
+  background:#d6d3d1;
+  border-radius: 12px;
   display: grid;
-  grid-template-columns: auto 1fr;
+  font-size: .95em;
+  font-weight: bold;
+  grid-template-columns: 1fr 1fr;
+  line-height: 26px;
+  margin: 0;
+  padding: 1em;
 }
 
 canvas {
