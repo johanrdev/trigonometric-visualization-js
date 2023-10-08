@@ -1,4 +1,5 @@
 (() => {
+  const year = document.getElementById('year')
   const canvas = document.querySelector('canvas');
   const degProperty = document.getElementById('deg');
   const radProperty = document.getElementById('rad');
@@ -15,14 +16,17 @@
   const centerY = canvas.height / 2;
   const radius = centerX * .8;
   const step = .25;
+  year.innerHTML = (new Date()).getFullYear();
 
   const setup = () => {
     // Circle
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.lineWidth = 1;
+    ctx.fillStyle = '#e7e5e4';
+    ctx.fill();
+    ctx.lineWidth = 2;
     ctx.setLineDash([]);
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = '#78716c';
     ctx.stroke();
     ctx.closePath();
 
@@ -30,9 +34,9 @@
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(0, centerY);
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.setLineDash([15, 15]);
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = '#78716c';
     ctx.stroke();
     ctx.closePath();
 
@@ -40,9 +44,9 @@
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(canvas.width, centerY);
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.setLineDash([15, 15]);
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = '#78716c';
     ctx.stroke();
     ctx.closePath();
 
@@ -50,9 +54,9 @@
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(centerX, canvas.height);
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.setLineDash([15, 15]);
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = '#78716c';
     ctx.stroke();
     ctx.closePath();
 
@@ -60,18 +64,11 @@
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(centerX, 0);
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.setLineDash([15, 15]);
-    ctx.strokeStyle = 'black';
+    ctx.strokeStyle = '#78716c';
     ctx.stroke();
     ctx.closePath();
-
-    // Origin
-    // ctx.beginPath();
-    // ctx.arc(centerX, centerY, radius * .035, 0, 2 * Math.PI);
-    // ctx.fillStyle = 'black';
-    // ctx.fill();
-    // ctx.closePath();
   }
 
   const drawRadius = (radians, color, width) => {
@@ -200,66 +197,76 @@
 
     if (angle >= 360) angle = 0
 
-    drawSine(radians, 'green', 2);
-    drawCosine(radians, 'blue', 2);
-    drawTangent(radians, 'black', 2);
-    drawSecant(radians, 'black', 2);
-    drawCosecant(radians, 'black', 2);
-    drawCotangent(radians, 'black', 2);
-    drawRadius(radians, 'red', 2);
+    drawSine(radians, '#78716c', 2);
+    drawCosine(radians, '#78716c', 2);
+    drawTangent(radians, '#78716c', 2);
+    drawSecant(radians, '#78716c', 2);
+    drawCosecant(radians, '#78716c', 2);
+    drawCotangent(radians, '#78716c', 2);
+    drawRadius(radians, '#0f766e', 6);
 
+    // (cosθ, sinθ)
     drawDot(
-      6,
+      8,
       centerX + radius * Math.cos(radians),
       centerY - radius * Math.sin(radians),
-      'yellow',
-      'black',
-      2
+      '#14b8a6',
+      '#78716c',
+      1
     );
+
+    // (0, sinθ)
     drawDot(
-      6,
+      8,
       centerX,
       centerY - radius * Math.sin(radians),
-      'yellow',
-      'black',
-      2
+      '#14b8a6',
+      '#78716c',
+      1
     );
+
+    // (cosθ, 0)
     drawDot(
-      6,
+      8,
       centerX + radius * Math.cos(radians),
       centerY,
-      'yellow',
-      'black',
-      2
+      '#14b8a6',
+      '#78716c',
+      1
     );
+
+    // (secθ, 0)
     drawDot(
-      6,
+      8,
       centerX + radius * (1 / Math.cos(radians)),
       centerY,
-      'yellow',
-      'black',
-      2
+      '#14b8a6',
+      '#78716c',
+      1
     );
+
+    // (0, cscθ)
     drawDot(
-      6,
+      8,
       centerX,
       centerY - radius * (1 / Math.sin(radians)),
-      'yellow',
-      'black',
-      2
+      '#14b8a6',
+      '#78716c',
+      1
     );
+
+    // (0, 0)
     drawDot(
       8,
       centerX, 
       centerY,
-      'black',
-      'black',
+      '#14b8a6',
+      '#78716c',
       1
     );
 
     degProperty.innerHTML = angle.toFixed(0);
     radProperty.innerHTML = radians.toFixed(4);
-
     sinProperty.innerHTML = Math.sin(radians).toFixed(4);
     cosProperty.innerHTML = Math.cos(radians).toFixed(4);
     tanProperty.innerHTML = Math.tan(radians).toFixed(4);
