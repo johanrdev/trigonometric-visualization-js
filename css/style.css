@@ -10,7 +10,7 @@ body {
   grid-template-rows: auto auto 1fr auto;
   margin: 0 auto;
   margin-top: 6%;
-  max-width: 768px;
+  max-width: 1024px;
 }
 
 #site-container > header {
@@ -54,7 +54,7 @@ body {
 }
 
 canvas {
-  background: #d2d2d2;
+  border: 2px black solid;
   width: 100%;
 }
 
