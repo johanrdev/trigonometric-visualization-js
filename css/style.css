@@ -48,6 +48,11 @@ body {
   padding: 1em;
 }
 
+#properties {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
 canvas {
   background: #d8d8d8;
   height: 0;
