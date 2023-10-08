@@ -41,8 +41,16 @@
     ctx.fillStyle = '#d6d3d1';
     ctx.fill();
     ctx.setLineDash([])
-    ctx.strokeStyle = '#a8a29e';
+    ctx.strokeStyle = '#78716c';
     ctx.stroke();
+    ctx.closePath();
+
+    // Angle symbol
+    ctx.beginPath();
+    ctx.fillStyle = '#78716c';
+    ctx.font = 'italic 28px Arial';
+    ctx.fillText('θ', properties.origin.x + 6, properties.origin.y - 6);
+    ctx.fill();
     ctx.closePath();
 
     // Negative x-axis
@@ -284,12 +292,12 @@
     }
   }
 
-  const Play = () => {
+  const play = () => {
     properties.animating = true;
     controls.button.innerHTML = 'Stop'
   };
 
-  const Stop = () => {
+  const stop = () => {
     properties.animating = false;
     controls.button.innerHTML = 'Play'
   };
@@ -324,16 +332,16 @@
   }
 
   controls.range.addEventListener('input', (event) => {
-    Stop();
+    stop();
 
     updateFrame(parseInt(event.target.value));
   })
 
   controls.button.addEventListener('click', () => {
     if (properties.animating) {
-      Stop();
+      stop();
     } else {
-      Play();
+      play();
     }
 
     updateFrame(properties.angle);
