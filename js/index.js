@@ -5,12 +5,15 @@
   const sinProperty = document.getElementById('sin');
   const cosProperty = document.getElementById('cos');
   const tanProperty = document.getElementById('tan');
+  const cscProperty = document.getElementById('csc');
+  const secProperty = document.getElementById('sec');
+  const cotProperty = document.getElementById('cot');
   const ctx = canvas.getContext('2d');
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.width;
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
-  const radius = centerX * .8;
+  const radius = centerX * .4;
   const step = .5;
 
   const setup = () => {
@@ -143,6 +146,7 @@
     drawRadius(radians);
     drawOpposite(radians);
     drawAdjacent(radians);
+    
     drawDot(
       centerX + radius * Math.cos(radians),
       centerY - radius * Math.sin(radians)
@@ -154,14 +158,18 @@
     drawDot(centerX, centerY);
 
     degProperty.innerHTML = angle.toFixed(0);
-    radProperty.innerHTML = radians.toFixed(2);
-    sinProperty.innerHTML = Math.sin(radians).toFixed(2);
-    cosProperty.innerHTML = Math.cos(radians).toFixed(2);
-    tanProperty.innerHTML = Math.tan(radians).toFixed(2);
+    radProperty.innerHTML = radians.toFixed(4);
+    
+    sinProperty.innerHTML = Math.sin(radians).toFixed(4);
+    cosProperty.innerHTML = Math.cos(radians).toFixed(4);
+    tanProperty.innerHTML = Math.tan(radians).toFixed(4);
+    cscProperty.innerHTML = (1 / Math.sin(radians)).toFixed(4);
+    secProperty.innerHTML = (1 / Math.cos(radians)).toFixed(4);
+    cotProperty.innerHTML = (1 / Math.tan(radians)).toFixed(4);
 
-    window.requestAnimationFrame(() => update(angle + step));
+    // window.requestAnimationFrame(() => update(angle + step));
   }
 
   setup();
-  update(0);
+  update(45);
 })();
