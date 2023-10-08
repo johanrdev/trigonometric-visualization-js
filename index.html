@@ -18,17 +18,33 @@
     </header>
     <aside>
       <dl id="properties">
-        <dt>Deg:</dt> <dd><span id="deg">0</span>&deg;</dd>
-        <dt>Rad:</dt> <dd><span id="rad">0</span></dd>
-        <dt>Sin:</dt> <dd><span id="sin">0</span></dd>
-        <dt>Cos:</dt> <dd><span id="cos">0</span></dd>
-        <dt>Tan:</dt> <dd><span id="tan">0</span></dd>
-        <dt>Csc:</dt> <dd><span id="csc">0</span></dd>
-        <dt>Sec:</dt> <dd><span id="sec">0</span></dd>
-        <dt>Cot:</dt> <dd><span id="cot">0</span></dd>
+        <dt>Deg:</dt>
+        <dd><span id="deg">0</span>&deg;</dd>
+        <dt>Rad:</dt>
+        <dd><span id="rad">0</span></dd>
+        <dt>Sin:</dt>
+        <dd><span id="sin">0</span></dd>
+        <dt>Cos:</dt>
+        <dd><span id="cos">0</span></dd>
+        <dt>Tan:</dt>
+        <dd><span id="tan">0</span></dd>
+        <dt>Csc:</dt>
+        <dd><span id="csc">0</span></dd>
+        <dt>Sec:</dt>
+        <dd><span id="sec">0</span></dd>
+        <dt>Cot:</dt>
+        <dd><span id="cot">0</span></dd>
       </dl>
     </aside>
     <main>
+      <nav id="controls">
+        <label for="input-degrees">
+          <span>Degrees:</span>
+          <input type="range" id="input-degrees" min="0" max="360">
+        </label>
+
+        <button type="button" id="button-play">Stop</button>
+      </nav>
       <canvas></canvas>
     </main>
     <footer>
@@ -37,6 +53,11 @@
   </section>
 
   <script src="./js/index.js"></script>
+  <script>
+    const year = document.getElementById('year')
+    
+    year.innerHTML = (new Date()).getFullYear();
+  </script>
 </body>
 
 </html>

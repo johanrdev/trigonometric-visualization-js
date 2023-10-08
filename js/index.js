@@ -1,7 +1,24 @@
 (() => {
-  const year = document.getElementById('year')
-  const canvas = document.querySelector('canvas');
-  const properties = {
+  const setupCanvas = () => {
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.width;
+
+    return {
+      canvas,
+      ctx
+    }
+  }
+
+  const { canvas, ctx } = setupCanvas();
+
+  const controls = {
+    range: document.querySelector('input'),
+    button: document.querySelector('button')
+  }
+
+  const elements = {
     deg: document.getElementById('deg'),
     rad: document.getElementById('rad'),
     sin: document.getElementById('sin'),
@@ -11,19 +28,26 @@
     sec: document.getElementById('sec'),
     cot: document.getElementById('cot')
   }
-  const ctx = canvas.getContext('2d');
-  canvas.width = canvas.clientWidth;
-  canvas.height = canvas.width;
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-  const radius = centerX * .5;
-  const step = .6;
-  year.innerHTML = (new Date()).getFullYear();
 
-  const setup = (angle) => {
+  const properties = {
+    angle: 0,
+    step: .6,
+    radius: canvas.width / 3,
+    origin: {
+      x: canvas.width / 2,
+      y: canvas.height / 2
+    },
+    animating: true
+  }
+
+  const drawCircle = (angle) => {
     // Circle
     ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.arc(
+      properties.origin.x, 
+      properties.origin.y, 
+      properties.radius, 
+      0, 2 * Math.PI);
     ctx.fillStyle = '#e7e5e4';
     ctx.fill();
     ctx.lineWidth = 2;
@@ -34,8 +58,14 @@
 
     // Angle arc
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius * .165, -degreesToRadians(angle), 0);
+    ctx.moveTo(
+      properties.origin.x, 
+      properties.origin.y);
+    ctx.arc(
+      properties.origin.x, 
+      properties.origin.y, 
+      properties.radius * .165, 
+      -degreesToRadians(angle), 0);
     ctx.lineWidth = 2;
     ctx.fillStyle = '#d6d3d1';
     ctx.fill();
@@ -46,8 +76,10 @@
 
     // Negative x-axis
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(0, centerY);
+    ctx.moveTo(
+      properties.origin.x, 
+      properties.origin.y);
+    ctx.lineTo(0, properties.origin.y);
     ctx.lineWidth = 2;
     ctx.setLineDash([15, 15]);
     ctx.strokeStyle = '#78716c';
@@ -56,8 +88,12 @@
 
     // Positive x-axis
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(canvas.width, centerY);
+    ctx.moveTo(
+      properties.origin.x, 
+      properties.origin.y);
+    ctx.lineTo(
+      canvas.width, 
+      properties.origin.y);
     ctx.lineWidth = 2;
     ctx.setLineDash([15, 15]);
     ctx.strokeStyle = '#78716c';
@@ -66,8 +102,12 @@
 
     // Negative y-axis
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(centerX, canvas.height);
+    ctx.moveTo(
+      properties.origin.x, 
+      properties.origin.y);
+    ctx.lineTo(
+      properties.origin.x, 
+      canvas.height);
     ctx.lineWidth = 2;
     ctx.setLineDash([15, 15]);
     ctx.strokeStyle = '#78716c';
@@ -76,8 +116,8 @@
 
     // Positive y-axis
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(centerX, 0);
+    ctx.moveTo(properties.origin.x, properties.origin.y);
+    ctx.lineTo(properties.origin.x, 0);
     ctx.lineWidth = 2;
     ctx.setLineDash([15, 15]);
     ctx.strokeStyle = '#78716c';
@@ -87,11 +127,12 @@
 
   const drawRadius = (radians, color, width) => {
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
+    ctx.moveTo(
+      properties.origin.x, 
+      properties.origin.y);
     ctx.lineTo(
-      centerX + radius * Math.cos(radians),
-      centerY - radius * Math.sin(radians)
-    );
+      properties.origin.x + properties.radius * Math.cos(radians),
+      properties.origin.y - properties.radius * Math.sin(radians));
     ctx.lineWidth = width;
     ctx.setLineDash([]);
     ctx.strokeStyle = color;
@@ -102,13 +143,11 @@
   const drawSine = (radians, color, width) => {
     ctx.beginPath();
     ctx.moveTo(
-      centerX + radius * Math.cos(radians),
-      centerY - radius * Math.sin(radians)
-    );
+      properties.origin.x + properties.radius * Math.cos(radians),
+      properties.origin.y - properties.radius * Math.sin(radians));
     ctx.lineTo(
-      centerX + radius * Math.cos(radians),
-      centerY
-    );
+      properties.origin.x + properties.radius * Math.cos(radians),
+      properties.origin.y);
     ctx.lineWidth = width;
     ctx.setLineDash([]);
     ctx.strokeStyle = color;
@@ -118,11 +157,12 @@
 
   const drawCosine = (radians, color, width) => {
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY - radius * Math.sin(radians));
+    ctx.moveTo(
+      properties.origin.x, 
+      properties.origin.y - properties.radius * Math.sin(radians));
     ctx.lineTo(
-      centerX + radius * Math.cos(radians),
-      centerY - radius * Math.sin(radians)
-    );
+      properties.origin.x + properties.radius * Math.cos(radians),
+      properties.origin.y - properties.radius * Math.sin(radians));
     ctx.lineWidth = width;
     ctx.setLineDash([]);
     ctx.strokeStyle = color;
@@ -133,13 +173,11 @@
   const drawTangent = (radians, color, width) => {
     ctx.beginPath();
     ctx.moveTo(
-      centerX + radius * Math.cos(radians),
-      centerY - radius * Math.sin(radians)
-    );
+      properties.origin.x + properties.radius * Math.cos(radians),
+      properties.origin.y - properties.radius * Math.sin(radians));
     ctx.lineTo(
-      centerX + radius * (1 / Math.cos(radians)),
-      centerY
-    );
+      properties.origin.x + properties.radius * (1 / Math.cos(radians)),
+      properties.origin.y);
     ctx.lineWidth = width;
     ctx.setLineDash([]);
     ctx.strokeStyle = color;
@@ -149,8 +187,12 @@
 
   const drawCosecant = (radians, color, width) => {
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(centerX, centerY - radius * (1 / Math.sin(radians)));
+    ctx.moveTo(
+      properties.origin.x, 
+      properties.origin.y);
+    ctx.lineTo(
+      properties.origin.x, 
+      properties.origin.y - properties.radius * (1 / Math.sin(radians)));
     ctx.lineWidth = width;
     ctx.setLineDash([]);
     ctx.strokeStyle = color;
@@ -160,8 +202,12 @@
 
   const drawSecant = (radians, color, width) => {
     ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(centerX + radius * (1 / Math.cos(radians)), centerY);
+    ctx.moveTo(
+      properties.origin.x, 
+      properties.origin.y);
+    ctx.lineTo(
+      properties.origin.x + properties.radius * (1 / Math.cos(radians)), 
+      properties.origin.y);
     ctx.lineWidth = width;
     ctx.setLineDash([]);
     ctx.strokeStyle = color;
@@ -172,13 +218,11 @@
   const drawCotangent = (radians, color, width) => {
     ctx.beginPath();
     ctx.moveTo(
-      centerX + radius * Math.cos(radians),
-      centerY - radius * Math.sin(radians)
-    );
+      properties.origin.x + properties.radius * Math.cos(radians),
+      properties.origin.y - properties.radius * Math.sin(radians));
     ctx.lineTo(
-      centerX,
-      centerY - radius * (1 / Math.sin(radians))
-    );
+      properties.origin.x,
+      properties.origin.y - properties.radius * (1 / Math.sin(radians)));
     ctx.lineWidth = width;
     ctx.setLineDash([]);
     ctx.strokeStyle = color;
@@ -188,9 +232,7 @@
 
   const drawDot = (radius, x, y, fill, stroke, width) => {
     ctx.beginPath();
-    ctx.arc(x, y,
-      radius, 0, 2 * Math.PI
-    );
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.lineWidth = width;
     ctx.fillStyle = fill;
     ctx.fill();
@@ -200,16 +242,15 @@
     ctx.closePath();
   }
 
-  const clear = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const clearCanvas = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
   const degreesToRadians = (degrees) => degrees * Math.PI / 180;
-  // const radiansToDegrees = (radians) => radians * 180 / Math.PI;
 
-  const update = (angle) => {
+  const updateFrame = (angle) => {
     const radians = degreesToRadians(angle);
-    clear();
-    setup(angle);
+    clearCanvas();
+    drawCircle(angle);
 
-    if (angle >= 359) angle = 0;
+    if (angle > 359) angle = 0;
 
     drawSine(radians, '#14b8a6', 2);
     drawCosine(radians, '#14b8a6', 2);
@@ -220,77 +261,84 @@
     drawRadius(radians, '#14b8a6', 4);
 
     // (cosθ, sinθ)
-    drawDot(
-      8,
-      centerX + radius * Math.cos(radians),
-      centerY - radius * Math.sin(radians),
-      '#14b8a6',
-      '#78716c',
-      1
-    );
+    drawDot(8,
+      properties.origin.x + properties.radius * Math.cos(radians),
+      properties.origin.y - properties.radius * Math.sin(radians),
+      '#14b8a6', '#78716c', 1);
 
     // (0, sinθ)
-    drawDot(
-      8,
-      centerX,
-      centerY - radius * Math.sin(radians),
-      '#14b8a6',
-      '#78716c',
-      1
-    );
+    drawDot(8,
+      properties.origin.x,
+      properties.origin.y - properties.radius * Math.sin(radians),
+      '#14b8a6', '#78716c', 1);
 
     // (cosθ, 0)
-    drawDot(
-      8,
-      centerX + radius * Math.cos(radians),
-      centerY,
-      '#14b8a6',
-      '#78716c',
-      1
-    );
+    drawDot(8,
+      properties.origin.x + properties.radius * Math.cos(radians),
+      properties.origin.y,
+      '#14b8a6', '#78716c', 1);
 
     // (secθ, 0)
-    drawDot(
-      8,
-      centerX + radius * (1 / Math.cos(radians)),
-      centerY,
-      '#14b8a6',
-      '#78716c',
-      1
-    );
+    drawDot(8,
+      properties.origin.x + properties.radius * (1 / Math.cos(radians)),
+      properties.origin.y,
+      '#14b8a6', '#78716c', 1);
 
     // (0, cscθ)
-    drawDot(
-      8,
-      centerX,
-      centerY - radius * (1 / Math.sin(radians)),
-      '#14b8a6',
-      '#78716c',
-      1
-    );
+    drawDot(8,
+      properties.origin.x,
+      properties.origin.y - properties.radius * (1 / Math.sin(radians)),
+      '#14b8a6', '#78716c', 1);
 
     // (0, 0)
-    drawDot(
-      8,
-      centerX,
-      centerY,
-      '#14b8a6',
-      '#78716c',
-      1
-    );
+    drawDot(8,
+      properties.origin.x,
+      properties.origin.y,
+      '#14b8a6', '#78716c', 1);
 
-    properties.deg.innerHTML = angle.toFixed(0);
-    properties.rad.innerHTML = radians.toFixed(4);
-    properties.sin.innerHTML = Math.sin(radians).toFixed(4);
-    properties.cos.innerHTML = Math.cos(radians).toFixed(4);
-    properties.tan.innerHTML = Math.tan(radians).toFixed(4);
-    properties.csc.innerHTML = (1 / Math.sin(radians)).toFixed(4);
-    properties.sec.innerHTML = (1 / Math.cos(radians)).toFixed(4);
-    properties.cot.innerHTML = (1 / Math.tan(radians)).toFixed(4);
+    elements.deg.innerHTML = angle.toFixed(0);
+    elements.rad.innerHTML = radians.toFixed(4);
+    elements.sin.innerHTML = Math.sin(radians).toFixed(4);
+    elements.cos.innerHTML = Math.cos(radians).toFixed(4);
+    elements.tan.innerHTML = Math.tan(radians).toFixed(4);
+    elements.csc.innerHTML = (1 / Math.sin(radians)).toFixed(4);
+    elements.sec.innerHTML = (1 / Math.cos(radians)).toFixed(4);
+    elements.cot.innerHTML = (1 / Math.tan(radians)).toFixed(4);
 
-    window.requestAnimationFrame(() => update(angle + step));
+    properties.angle = angle;
+    controls.range.value = angle;
+
+    if (properties.animating) {
+      window.requestAnimationFrame(() => updateFrame(angle + properties.step));
+    }
   }
 
-  setup();
-  update(0);
+  const Play = () => {
+    properties.animating = true;
+    controls.button.innerHTML = 'Stop'
+  };
+
+  const Stop = () => {
+    properties.animating = false;
+    controls.button.innerHTML = 'Play'
+  };
+
+  controls.range.addEventListener('input', (event) => {
+    Stop();
+
+    updateFrame(parseInt(event.target.value));
+  })
+
+  controls.button.addEventListener('click', () => {
+    if (properties.animating) {
+      Stop();
+    } else {
+      Play();
+    }
+
+    updateFrame(properties.angle);
+  })
+
+  drawCircle();
+  updateFrame(properties.angle);
 })();
