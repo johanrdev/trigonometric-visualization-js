@@ -53,3 +53,23 @@ canvas {
   padding-bottom: 100%;
   width: 100%;
 }
+
+@media screen and (min-width: 768px) {
+  #site-container {
+    grid-template-rows: auto 1fr auto;
+  }
+
+  #site-container > aside {
+    grid-column-end: 3;
+    grid-row-start: 2;
+  }
+
+  #site-container > main {
+    grid-column-start: 3;
+    grid-row-start: 2;
+  }
+
+  #site-container > footer {
+    grid-row-start: 3;
+  }
+}
